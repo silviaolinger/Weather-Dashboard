@@ -50,12 +50,19 @@ window.addEventListener('load', () => {
 
 
 
-
+// map is taking array items and converting them in a button list
+// .map(searches => {
+//     return (`<button type='button' id='x'class='savedsearch'onclick='d()' value='${searches.city}'>${searches.city}</button>`);
+    
+// })
+// // getting a string with all button concept.
+//    .join("")
+// })
 
 
 
 function coordResults(lat, long) {
-  
+   //fetch('https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={long}&units=${api.units}&exclude={part}&appid={api.key}')
 
     fetch(`${api.base}weather?lat=${lat}&lon=${long}&lang=${api.lang}&units=${api.units}&&APPID=${api.key}`)
         .then(response => {
@@ -71,7 +78,7 @@ function coordResults(lat, long) {
             displayResults(response)
         });
 }
-
+//const savedsearch= JSON.parse(localStorage.getItem('savedsearch')) || [];
 var citySearchArray = localStorage.citySearchArray
   ? JSON.parse(localStorage.citySearchArray)
   : [];
@@ -111,7 +118,8 @@ function enter(event) {
 
      
 function searchResults(city) {
-    
+    //fetch(`https://api.openweathermap.org/data/2.5/onecall?q=${city}&units=${api.units}&exclude={part}&appid=166a433c57516f51dfab1f7edaed8413`)
+    //fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&lang=${api.lang}&units=${api.units}&APPID=${api.key}`)
     fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&units=${api.units}&cnt=7&appid=166a433c57516f51dfab1f7edaed8413`)
    
     .then(response => {
@@ -233,7 +241,21 @@ fetch(`${api.base}forecast?q=${city}&lang=${api.lang}&units=${api.units}&APPID=$
 }
 
 
+// container_temp.addEventListener('click', changeTemp)
+// function changeTemp() {
+//     temp_number_now = temp_number.innerHTML
 
+//     if (temp_unit.innerHTML === "°c") {
+//         let f = (temp_number_now * 1.8) + 32
+//         temp_unit.innerHTML = "°f"
+//         temp_number.innerHTML = Math.round(f)
+//     }
+//     else {
+//         let c = (temp_number_now - 32) / 1.8
+//         temp_unit.innerHTML = "°c"
+//         temp_number.innerHTML = Math.round(c)
+//     }
+// }
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
