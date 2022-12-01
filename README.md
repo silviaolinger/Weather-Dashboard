@@ -5,7 +5,7 @@ https://github.com/silviaolinger/Weather-Dashboard
 https://silviaolinger.github.io/Weather-Dashboard/
 
 ## Description
-A simple wheather application inwhich includes a search option, a list of cities, and a five-day forecast using API to retrive this data.
+A simple weather application iwhich includes a search option, a list of cities, and a five-day forecast using API to  this display data.
 ## User Story
 - AS A traveler
 - I WANT to see the weather outlook for multiple cities
