@@ -27,44 +27,19 @@ const wind_speed=document.querySelector('.windSpeed');
 
 
 window.addEventListener('load', () => {
-    //if ("geolocation" in navigator)
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(setPosition, showError);
-    }
-    else {
-        alert('broweser doest not support geolocation');
-    }
-    function setPosition(position) {
-        console.log(position)
-        let lat = position.coords.latitude;
-        let long = position.coords.longitude;
-        coordResults(lat, long);
-    }
-    function showError(error) {
-        alert(`erro: ${error.message}`);
-    }
-    const searchList = document.getElementById ("searchList");
-//const search = JSON.parse(localStorage.getItem("savedsearch"))||[];
-// to display the list in the screen
-})
+   defaultLocation()
+});
 
 
 
-// map is taking array items and converting them in a button list
-// .map(searches => {
-//     return (`<button type='button' id='x'class='savedsearch'onclick='d()' value='${searches.city}'>${searches.city}</button>`);
-    
-// })
-// // getting a string with all button concept.
-//    .join("")
-// })
 
 
 
-function coordResults(lat, long) {
-   //fetch('https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={long}&units=${api.units}&exclude={part}&appid={api.key}')
 
-    fetch(`${api.base}weather?lat=${lat}&lon=${long}&lang=${api.lang}&units=${api.units}&&APPID=${api.key}`)
+function defaultLocation( ) {
+   
+    const city='Atlanta'
+    fetch(`${api.base}forecast?q=${city}&lang=${api.lang}&units=${api.units}&&APPID=${api.key}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`http error: status ${response.status}`)
@@ -76,6 +51,8 @@ function coordResults(lat, long) {
         })
         .then(response => {
             displayResults(response)
+            searchResults(city);
+        
         });
 }
 //const savedsearch= JSON.parse(localStorage.getItem('savedsearch')) || [];
@@ -141,26 +118,27 @@ function searchResults(city) {
 function displayResults(weather) {
     console.log(weather)
     
-    city.innerText = `${weather.name}, ${weather.sys.country}`;
-    let hum= weather.main.humidity
+    city.innerText = `${weather.city.name}, ${weather.city.country}`;
+    let hum= weather.list[0].main.humidity
     humidity.innerHTML="Humidity: "+hum;
-    let wind_s=weather.wind.speed;
+    let wind_s=weather.list[0].wind.speed;
     wind_speed.innerHTML="Wind Speed: " + wind_s
 
     let now = new Date();
     date.innerText = dateBuilder(now);
 
-    let iconName = weather.weather[0].icon;
-    container_img.innerHTML = `<img src="./icons/${iconName}.png">`;
+    let iconName = weather.list[0].weather[0].icon;
+    container_img.innerHTML = `<img src="http://openweathermap.org/img/wn/${iconName}.png">`;
+    
 
-    let temperature = `${Math.round(weather.main.temp)}`
+    let temperature = `${Math.round(weather.list[0].main.temp)}`
     temp_number.innerHTML = temperature;
     temp_unit.innerHTML = `F`;
 
-    weather_time = weather.weather[0].description;
+    weather_time = weather.list[0].weather[0].description;
     weather_t.innerText = capitalizeFirstLetter(weather_time)
 
-    low_high.innerText = `${Math.round(weather.main.temp_min)}F / ${Math.round(weather.main.temp_max)}F`;
+    low_high.innerText = `${Math.round(weather.list[0].main.temp_min)}F / ${Math.round(weather.list[0].main.temp_max)}F`;
 }
 function displaySearchResults(weather) {
     console.log(weather)
@@ -175,7 +153,7 @@ function displaySearchResults(weather) {
     date.innerText = dateBuilder(now);
 
     let iconName = weather.list[0].weather[0].icon;
-    container_img.innerHTML = `<img src="./icons/${iconName}.png">`;
+    container_img.innerHTML = `<img src="http://openweathermap.org/img/wn/${iconName}.png">`;
 
     let temperature = `${Math.round(weather.list[0].temp.day)}`
     temp_number.innerHTML = temperature;
